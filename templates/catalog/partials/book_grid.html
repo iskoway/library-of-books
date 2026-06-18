@@ -1,0 +1,15 @@
+<section class="book-grid">
+  {% for book in books %}
+    <article class="book-card">
+      <div class="book-card__content">
+        <p class="book-card__category">{{ book.category.name }}</p>
+        <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+        <p class="book-card__meta">{{ book.author.full_name }}{% if book.published_year %} · {{ book.published_year }}{% endif %}</p>
+        <p>{{ book.description|truncatechars:140 }}</p>
+      </div>
+      <a class="book-card__link" href="{{ book.get_absolute_url }}">Подробнее</a>
+    </article>
+  {% empty %}
+    <p class="empty-state">По вашему запросу книги не найдены.</p>
+  {% endfor %}
+</section>

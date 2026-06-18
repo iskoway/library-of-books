@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить книгу{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <div>
+      <p class="eyebrow">Новая запись</p>
+      <h1>Добавление книги</h1>
+      <p class="hero__lead">Заполните форму, чтобы пополнить библиотеку новой книгой.</p>
+    </div>
+  </section>
+
+  <section class="form-card">
+    <form method="post" class="book-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="form-error">{{ field.errors|join:', ' }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button class="button button--primary" type="submit">Сохранить книгу</button>
+    </form>
+  </section>
+{% endblock %}

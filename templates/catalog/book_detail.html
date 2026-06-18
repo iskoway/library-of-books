@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+  <article class="detail-card">
+    <p class="eyebrow">{{ book.category.name }}</p>
+    <h1>{{ book.title }}</h1>
+    <div class="detail-meta">
+      <span>Автор: {{ book.author.full_name }}</span>
+      {% if book.published_year %}
+        <span>Год: {{ book.published_year }}</span>
+      {% endif %}
+    </div>
+    <p>{{ book.description }}</p>
+    <div class="detail-actions">
+      <a class="button button--secondary" href="{% url 'catalog:book_list' %}">Назад к каталогу</a>
+      <a class="button button--primary" href="{{ book.category.get_absolute_url }}">Другие книги категории</a>
+    </div>
+  </article>
+{% endblock %}

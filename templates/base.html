@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Библиотека книг{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Prata&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="{% url 'catalog:home' %}">
+          <span class="brand__badge">LB</span>
+          <span>
+            <strong>Library of Books</strong>
+            <small>Современный каталог книг</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Главная навигация">
+          <a href="{% url 'catalog:home' %}">Главная</a>
+          <a href="{% url 'catalog:book_list' %}">Каталог</a>
+          <a href="{% url 'catalog:book_create' %}">Добавить книгу</a>
+        </nav>
+      </header>
+
+      {% if messages %}
+        <div class="flash-stack">
+          {% for message in messages %}
+            <div class="flash flash--{{ message.tags|default:'info' }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </body>
+</html>

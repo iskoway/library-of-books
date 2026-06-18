@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог книг{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <div>
+      <p class="eyebrow">Каталог</p>
+      <h1>Все книги библиотеки</h1>
+    </div>
+    <form method="get" class="search-form search-form--compact">
+      <input type="search" name="q" value="{{ search_query }}" placeholder="Поиск по книгам" />
+      <button class="button button--primary" type="submit">Искать</button>
+    </form>
+  </section>
+
+  <section class="layout-grid">
+    <aside class="sidebar">
+      <h2>Категории</h2>
+      <div class="sidebar__links">
+        {% for category in categories %}
+          <a href="{{ category.get_absolute_url }}">{{ category.name }} <span>{{ category.book_total }}</span></a>
+        {% empty %}
+          <p>Категории отсутствуют.</p>
+        {% endfor %}
+      </div>
+    </aside>
+
+    <div>
+      {% if search_query %}
+        <p class="results-note">Результаты поиска по запросу: "{{ search_query }}"</p>
+      {% endif %}
+      {% include 'catalog/partials/book_grid.html' with books=books %}
+    </div>
+  </section>
+{% endblock %}

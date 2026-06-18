@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Библиотека книг{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">Онлайн-библиотека</p>
+      <h1>Книги, авторы и категории в удобном современном интерфейсе.</h1>
+      <p class="hero__lead">
+        Управляйте каталогом, находите нужные книги через поиск и быстро переходите
+        к тематическим подборкам по категориям.
+      </p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="{% url 'catalog:book_list' %}">Открыть каталог</a>
+        <a class="button button--secondary" href="{% url 'catalog:book_create' %}">Добавить книгу</a>
+      </div>
+    </div>
+
+    <div class="hero__stats">
+      <article class="stat-card">
+        <span>{{ total_books }}</span>
+        <p>книг в каталоге</p>
+      </article>
+      <article class="stat-card">
+        <span>{{ categories|length }}</span>
+        <p>категорий</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="search-panel">
+    <form method="get" action="{% url 'catalog:book_list' %}" class="search-form">
+      <label class="sr-only" for="global-search">Поиск по книгам</label>
+      <input id="global-search" type="search" name="q" value="{{ search_query }}" placeholder="Поиск по названию, автору, категории" />
+      <button class="button button--primary" type="submit">Найти</button>
+    </form>
+  </section>
+
+  <section class="section-head">
+    <div>
+      <p class="eyebrow">Категории</p>
+      <h2>Популярные направления</h2>
+    </div>
+  </section>
+  <section class="category-grid">
+    {% for category in featured_categories %}
+      <a class="category-card" href="{{ category.get_absolute_url }}">
+        <h3>{{ category.name }}</h3>
+        <p>{{ category.description|default:"Подборка книг по выбранному направлению."|truncatechars:96 }}</p>
+        <span>{{ category.book_total }} книг</span>
+      </a>
+    {% empty %}
+      <p class="empty-state">Категории пока не добавлены.</p>
+    {% endfor %}
+  </section>
+
+  <section class="section-head">
+    <div>
+      <p class="eyebrow">Новые поступления</p>
+      <h2>Последние добавленные книги</h2>
+    </div>
+  </section>
+  {% include 'catalog/partials/book_grid.html' with books=books %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ active_category.name }}{% endblock %}
+
+{% block content %}
+  <section class="page-intro">
+    <div>
+      <p class="eyebrow">Категория</p>
+      <h1>{{ active_category.name }}</h1>
+      <p class="hero__lead">
+        {{ active_category.description|default:"Подборка книг этой категории." }}
+      </p>
+    </div>
+    <form method="get" class="search-form search-form--compact">
+      <input type="search" name="q" value="{{ search_query }}" placeholder="Поиск внутри категории" />
+      <button class="button button--primary" type="submit">Искать</button>
+    </form>
+  </section>
+
+  {% include 'catalog/partials/book_grid.html' with books=books %}
+{% endblock %}
